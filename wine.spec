@@ -44,7 +44,7 @@
 
 Name:           wine
 Version:        5.9
-Release:        2%{?dist}
+Release:        2.im0%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -97,6 +97,11 @@ Patch511:       wine-cjk.patch
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
 Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+
+# https://github.com/Frogging-Family/wine-tkg-git/blob/17d0c282d8f16c98cb99b1fc61abba08cea3c460/wine-tkg-git/wine-tkg-patches/proton/fsync-staging.patch
+Patch1001: fsync-staging.patch
+# https://github.com/Frogging-Family/wine-tkg-git/blob/8fc81a12d9205b782c0923da7029f5161266008f/wine-tkg-git/wine-tkg-patches/proton/fsync-staging-no_alloc_handle.patch
+Patch1002: fsync-staging-no_alloc_handle.patch
 %endif
 
 %if !%{?no64bit}
@@ -693,6 +698,9 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
+
+%patch1001 -p1 -b.fsync1
+%patch1002 -p1 -b.fsync2
 
 %endif # 0%{?wine_staging}
 
@@ -2312,6 +2320,9 @@ fi
 %endif
 
 %changelog
+* Thu Apr 23 2020 Ivan Mironov <mironov.ivan@gmail.com> - 5.9-2.im0
+- Add fsync patch
+
 * Tue Jun 02 2020 Michael Cronenworth <mike@cchtml.com> 5.9-2
 - drop typelibs from 32-bit devel package
 - add patch for wine bug 49208
