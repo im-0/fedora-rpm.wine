@@ -1,0 +1,11 @@
+diff -Nru wine-5.6.b/server/fsync.c wine-5.6.c/server/fsync.c
+--- wine-5.6.b/server/fsync.c	2020-04-23 22:46:01.623260309 +0500
++++ wine-5.6.c/server/fsync.c	2020-04-24 01:25:05.236192961 +0500
+@@ -165,6 +165,7 @@
+     default_unlink_name,       /* unlink_name */
+     no_open_file,              /* open_file */
+     no_kernel_obj_list,        /* get_kernel_obj_list */
++    no_alloc_handle,           /* alloc_handle */
+     no_close_handle,           /* close_handle */
+     fsync_destroy              /* destroy */
+ };
